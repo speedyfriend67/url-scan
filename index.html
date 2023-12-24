@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,40 +11,46 @@
   <label for="urlInput">Enter URL:</label>
   <input type="text" id="urlInput" placeholder="https://example.com/path?query=param">
 
-  <button onclick="encodeDecodeUrl(true)">Encode URL</button>
-  <button onclick="encodeDecodeUrl(false)">Decode URL</button>
+  <label for="actionSelect">Select Action:</label>
+  <select id="actionSelect">
+    <option value="encode">Encode URL</option>
+    <option value="decode">Decode URL</option>
+  </select>
+
+  <button onclick="processUrl()">Process URL</button>
 
   <div id="resultContainer">
     <!-- Result will be displayed here -->
   </div>
 
   <script>
-    function encodeDecodeUrl(encode) {
+    function processUrl() {
       const urlInput = document.getElementById('urlInput');
+      const actionSelect = document.getElementById('actionSelect');
       const resultContainer = document.getElementById('resultContainer');
 
       const url = urlInput.value;
+      const action = actionSelect.value;
 
       try {
-        if (encode) {
+        let result;
+        if (action === 'encode') {
           // Encode the URL
-          const encodedUrl = encodeURIComponent(url);
-          // Display the encoded URL
-          resultContainer.innerHTML = `
-            <h2>Encoded URL</h2>
-            <p>${encodedUrl}</p>
-          `;
-        } else {
+          result = encodeURIComponent(url);
+        } else if (action === 'decode') {
           // Decode the URL
-          const decodedUrl = decodeURIComponent(url);
-          // Display the decoded URL
-          resultContainer.innerHTML = `
-            <h2>Decoded URL</h2>
-            <p>${decodedUrl}</p>
-          `;
+          result = decodeURIComponent(url);
+        } else {
+          throw new Error('Invalid action selected.');
         }
+
+        // Display the result
+        resultContainer.innerHTML = `
+          <h2>${action === 'encode' ? 'Encoded' : 'Decoded'} URL</h2>
+          <p>${result}</p>
+        `;
       } catch (error) {
-        // Handle potential decoding errors
+        // Handle potential errors
         resultContainer.innerHTML = `
           <p>Error: ${error.message}</p>
         `;
