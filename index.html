@@ -1,53 +1,36 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URL Information Scanner</title>
+  <title>URL Obfuscation</title>
 </head>
 <body>
-  <h1>URL Information Scanner</h1>
+  <h1>URL Obfuscation</h1>
   
   <label for="urlInput">Enter URL:</label>
   <input type="text" id="urlInput" placeholder="https://example.com">
-  <button onclick="scanUrl()">Scan URL</button>
+  <button onclick="obfuscateUrl()">Obfuscate URL</button>
 
   <div id="resultContainer">
-    <!-- Results will be displayed here -->
+    <!-- Obfuscated URL will be displayed here -->
   </div>
 
   <script>
-    function scanUrl() {
+    function obfuscateUrl() {
       const urlInput = document.getElementById('urlInput');
       const resultContainer = document.getElementById('resultContainer');
 
       const url = urlInput.value;
 
-      // Fetch the HTML content of the provided URL
-      fetch(url)
-        .then(response => response.text())
-        .then(html => {
-          // Create a temporary container to parse the HTML content
-          const tempContainer = document.createElement('div');
-          tempContainer.innerHTML = html;
+      // Encode the URL
+      const obfuscatedUrl = encodeURIComponent(url);
 
-          // Get the title of the page
-          const pageTitle = tempContainer.querySelector('title').innerText;
-
-          // Get the number of images on the page
-          const images = tempContainer.querySelectorAll('img');
-          const numImages = images.length;
-
-          // Display the results
-          resultContainer.innerHTML = `
-            <h2>Results for ${url}</h2>
-            <p>Title: ${pageTitle}</p>
-            <p>Number of Images: ${numImages}</p>
-          `;
-        })
-        .catch(error => {
-          resultContainer.innerHTML = `<p>Error: ${error.message}</p>`;
-        });
+      // Display the obfuscated URL
+      resultContainer.innerHTML = `
+        <h2>Obfuscated URL</h2>
+        <p>${obfuscatedUrl}</p>
+      `;
     }
   </script>
 </body>
