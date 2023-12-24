@@ -3,33 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URL Obfuscation</title>
+  <title>URL Encoder/Decoder</title>
 </head>
 <body>
-  <h1>URL Obfuscation</h1>
+  <h1>URL Encoder/Decoder</h1>
   
   <label for="urlInput">Enter URL:</label>
-  <input type="text" id="urlInput" placeholder="https://example.com">
-  <button onclick="obfuscateUrl()">Obfuscate URL</button>
+  <input type="text" id="urlInput" placeholder="https://example.com/path?query=param">
+
+  <button onclick="encodeUrl()">Encode URL</button>
+  <button onclick="decodeUrl()">Decode URL</button>
 
   <div id="resultContainer">
-    <!-- Obfuscated URL will be displayed here -->
+    <!-- Result will be displayed here -->
   </div>
 
   <script>
-    function obfuscateUrl() {
+    function encodeUrl() {
       const urlInput = document.getElementById('urlInput');
       const resultContainer = document.getElementById('resultContainer');
 
       const url = urlInput.value;
 
       // Encode the URL
-      const obfuscatedUrl = encodeURIComponent(url);
+      const encodedUrl = encodeURIComponent(url);
 
-      // Display the obfuscated URL
+      // Display the encoded URL
       resultContainer.innerHTML = `
-        <h2>Obfuscated URL</h2>
-        <p>${obfuscatedUrl}</p>
+        <h2>Encoded URL</h2>
+        <p>${encodedUrl}</p>
+      `;
+    }
+
+    function decodeUrl() {
+      const urlInput = document.getElementById('urlInput');
+      const resultContainer = document.getElementById('resultContainer');
+
+      const url = urlInput.value;
+
+      // Decode the URL
+      const decodedUrl = decodeURIComponent(url);
+
+      // Display the decoded URL
+      resultContainer.innerHTML = `
+        <h2>Decoded URL</h2>
+        <p>${decodedUrl}</p>
       `;
     }
   </script>
