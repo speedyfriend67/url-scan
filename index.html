@@ -3,41 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zip Extraction and Reordering</title>
+  <title>URL Information Scanner</title>
 </head>
 <body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/adm-zip/0.5.1/adm-zip.min.js"></script>
+  <h1>URL Information Scanner</h1>
+  
+  <label for="urlInput">Enter URL:</label>
+  <input type="text" id="urlInput" placeholder="https://example.com">
+  <button onclick="scanUrl()">Scan URL</button>
+
+  <div id="resultContainer">
+    <!-- Results will be displayed here -->
+  </div>
+
   <script>
-    // Replace 'your.zip' with the path to your zip file
-    const zipPath = 'your.zip';
+    function scanUrl() {
+      const urlInput = document.getElementById('urlInput');
+      const resultContainer = document.getElementById('resultContainer');
 
-    // Replace 'outputFolder' with the desired output folder
-    const outputFolder = 'outputFolder';
+      const url = urlInput.value;
 
-    // Create output folder if it doesn't exist
-    if (!fs.existsSync(outputFolder)) {
-      fs.mkdirSync(outputFolder);
-    }
+      // Fetch the HTML content of the provided URL
+      fetch(url)
+        .then(response => response.text())
+        .then(html => {
+          // Create a temporary container to parse the HTML content
+          const tempContainer = document.createElement('div');
+          tempContainer.innerHTML = html;
 
-    // Fetch the zip file asynchronously
-    fetch(zipPath)
-      .then(response => response.arrayBuffer())
-      .then(buffer => {
-        // Create an AdmZip object from the array buffer
-        const zip = new AdmZip(new Uint8Array(buffer));
+          // Get the title of the page
+          const pageTitle = tempContainer.querySelector('title').innerText;
 
-        // Extract all entries from the zip file
-        zip.getEntries().forEach((entry) => {
-          // Extract each entry to the output folder
-          zip.extractEntryTo(entry, outputFolder, false, true);
+          // Get the number of images on the page
+          const images = tempContainer.querySelectorAll('img');
+          const numImages = images.length;
+
+          // Display the results
+          resultContainer.innerHTML = `
+            <h2>Results for ${url}</h2>
+            <p>Title: ${pageTitle}</p>
+            <p>Number of Images: ${numImages}</p>
+          `;
+        })
+        .catch(error => {
+          resultContainer.innerHTML = `<p>Error: ${error.message}</p>`;
         });
-
-        console.log('Zip file extracted successfully.');
-
-        // Now you can reorder the files as needed in the 'outputFolder'
-        // Implement your custom logic for reordering files if necessary
-      })
-      .catch(error => console.error('Error fetching or extracting zip:', error));
+    }
   </script>
 </body>
 </html>
