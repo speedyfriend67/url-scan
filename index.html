@@ -11,44 +11,44 @@
   <label for="urlInput">Enter URL:</label>
   <input type="text" id="urlInput" placeholder="https://example.com/path?query=param">
 
-  <button onclick="encodeUrl()">Encode URL</button>
-  <button onclick="decodeUrl()">Decode URL</button>
+  <button onclick="encodeDecodeUrl(true)">Encode URL</button>
+  <button onclick="encodeDecodeUrl(false)">Decode URL</button>
 
   <div id="resultContainer">
     <!-- Result will be displayed here -->
   </div>
 
   <script>
-    function encodeUrl() {
+    function encodeDecodeUrl(encode) {
       const urlInput = document.getElementById('urlInput');
       const resultContainer = document.getElementById('resultContainer');
 
       const url = urlInput.value;
 
-      // Encode the URL
-      const encodedUrl = encodeURIComponent(url);
-
-      // Display the encoded URL
-      resultContainer.innerHTML = `
-        <h2>Encoded URL</h2>
-        <p>${encodedUrl}</p>
-      `;
-    }
-
-    function decodeUrl() {
-      const urlInput = document.getElementById('urlInput');
-      const resultContainer = document.getElementById('resultContainer');
-
-      const url = urlInput.value;
-
-      // Decode the URL
-      const decodedUrl = decodeURIComponent(url);
-
-      // Display the decoded URL
-      resultContainer.innerHTML = `
-        <h2>Decoded URL</h2>
-        <p>${decodedUrl}</p>
-      `;
+      try {
+        if (encode) {
+          // Encode the URL
+          const encodedUrl = encodeURIComponent(url);
+          // Display the encoded URL
+          resultContainer.innerHTML = `
+            <h2>Encoded URL</h2>
+            <p>${encodedUrl}</p>
+          `;
+        } else {
+          // Decode the URL
+          const decodedUrl = decodeURIComponent(url);
+          // Display the decoded URL
+          resultContainer.innerHTML = `
+            <h2>Decoded URL</h2>
+            <p>${decodedUrl}</p>
+          `;
+        }
+      } catch (error) {
+        // Handle potential decoding errors
+        resultContainer.innerHTML = `
+          <p>Error: ${error.message}</p>
+        `;
+      }
     }
   </script>
 </body>
